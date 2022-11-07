@@ -41,25 +41,25 @@ namespace WebAPI_Core_Magerramov.Controllers
             
         }
 
-        // GET: CatController
+        // GET: GameController
         public ActionResult Index()
         {
             return View();
         }
 
-        // GET: CatController/Details/5
+        // GET: GameController/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: CatController/Create
+        // GET: GameController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: CatController/Create
+        // POST: GameController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -74,13 +74,13 @@ namespace WebAPI_Core_Magerramov.Controllers
             }
         }
 
-        // GET: CatController/Edit/5
+        // GET: GameController/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: CatController/Edit/5
+        // POST: GameController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -95,13 +95,13 @@ namespace WebAPI_Core_Magerramov.Controllers
             }
         }
 
-        // GET: CatController/Delete/5
+        // GET: GameController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: CatController/Delete/5
+        // POST: GameController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
