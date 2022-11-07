@@ -29,16 +29,22 @@ namespace WebAPI_Core_Magerramov.Controllers
                 while (reader.Read())
                 {
                     Console.WriteLine(reader.GetInt32(0));
-                    cat.Add(new Game() { ID = reader.GetInt32(0), NameG = reader.GetString(1).Trim(), 
-                        Description = reader.GetString(2).Trim(), Price = reader.GetDecimal(3),
-                        Rating = reader.GetInt16(4)});
+                    cat.Add(new Game()
+                    {
+                        ID = reader.GetInt32(0),
+                        NameG = reader.GetString(1).Trim(),
+                        Description = reader.GetString(2).Trim(),
+                        Price = reader.GetDecimal(3),
+                        Rating = reader.GetInt16(4)
+                    });
                 }
                 oleDbConnection.Close();
 
 
-            } return cat;
+            }
+            return cat;
 
-            
+
         }
 
         // GET: GameController
