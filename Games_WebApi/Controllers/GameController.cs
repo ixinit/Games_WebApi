@@ -14,7 +14,7 @@ namespace WebAPI_Core_Magerramov.Controllers
     {
         //String connectionString = @"Data Source=com-234-2\sqlexpress;Initial Catalog=DB_Magerramov;Integrated Security=True";
         //public static string connectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=Workers.mdb;";
-        public static string connectionString = @"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=.\bin\x86\db1.mdb";
+        public static string connectionString = @"Provider=Microsoft.Jet.OLEDB.4.0;Data Source=db1.mdb";
         [HttpGet]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Interoperability", "CA1416:Проверка совместимости платформы", Justification = "<Ожидание>")]
         public List<Game> Get()
