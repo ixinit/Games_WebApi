@@ -138,7 +138,7 @@ namespace WebAPI_Core_Magerramov.Controllers
                 OleDbCommand oleDbCommand = new OleDbCommand(string.Format("DELETE * FROM Games WHERE ID = {0}", id), oleDbConnection);
                 if (oleDbCommand.ExecuteNonQuery() == 1)
                 {
-                    Console.WriteLine(string.Format("[D] DELETE Games ID = {0} - ok", id));
+                    Console.WriteLine(string.Format("[D] DELETE Games ID = {0}", id));
                     return new OkResult();
                 }
             }
