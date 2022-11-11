@@ -100,21 +100,6 @@ namespace WebAPI_Core_Magerramov.Controllers
             return new NoContentResult();
         }
 
-        // POST: Game/Create
-        /*[HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }*/
-
         // GET: Game/5
         [HttpPut("{id}")]
         public ActionResult Update(int id, [FromBody] Game game)
@@ -143,21 +128,6 @@ namespace WebAPI_Core_Magerramov.Controllers
             return new NoContentResult();
         }
 
-        // POST: Game/Edit/5
-        /*[HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }*/
-
         // GET: Game/5
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
@@ -174,21 +144,6 @@ namespace WebAPI_Core_Magerramov.Controllers
             }
             return new NoContentResult();
         }
-
-        // POST: Game/Delete/5
-        /*[HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }*/
 
         // GET: Game используется как заглушка
         public ActionResult Index()
