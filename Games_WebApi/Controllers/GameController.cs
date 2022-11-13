@@ -47,7 +47,7 @@ namespace WebAPI_Core_Magerramov.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Game))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<Game> id(int id)
+        public ActionResult<Game> GetById(int id)
         {
             Game game;
             using (OleDbConnection oleDbConnection = new OleDbConnection(GameShopContext.connectionString))
@@ -72,7 +72,7 @@ namespace WebAPI_Core_Magerramov.Controllers
             return NotFound();
         }
 
-        // GET: Game/Insert
+        // POST: Game/Insert
         [HttpPost]
         public ActionResult Insert([FromBody] Game game)
         {
