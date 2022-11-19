@@ -85,14 +85,15 @@ namespace Games_WebApi.Controllers
                 OleDbCommand oleDbCommand = new OleDbCommand(
                     string.Format("INSERT INTO Games ( NameG, Description, Price, Rating )" +
                                   "VALUES ( '{0}', '{1}', {2}, {3})",
-                                  game.NameG, game.Description, game.Price, game.Rating
+                                  game.NameG, game.Description, game.Price.ToString().Replace(",","."), game.Rating
                     ),
                     oleDbConnection);
+                Console.WriteLine(string.Format("[D]TRY INSERT INTO Games ( NameG, Description, Price, Rating )" +
+                                  "VALUES ( '{0}', '{1}', {2}, {3})",
+                                  game.NameG, game.Description, game.Price.ToString().Replace(",", "."), game.Rating));
                 if (oleDbCommand.ExecuteNonQuery() == 1)
                 {
-                    Console.WriteLine(string.Format("[D] INSERT INTO Games ( NameG, Description, Price, Rating )" +
-                                  "VALUES ( '{0}', '{1}', {2}, {3})",
-                                  game.NameG, game.Description, game.Price, game.Rating));
+                    Console.WriteLine("[D] INSERT INTO Games - ok");
                     return new OkResult();
                 }
             }
