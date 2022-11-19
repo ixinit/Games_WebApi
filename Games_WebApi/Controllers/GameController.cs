@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Games_WebApi.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using WebAPI_Core_Magerramov.Models;
 using System.Data.OleDb;
-using Games_WebApi.Controllers;
 
-namespace WebAPI_Core_Magerramov.Controllers
+namespace Games_WebApi.Controllers
 {
     //api/Game
     [Route("api/[controller]")]

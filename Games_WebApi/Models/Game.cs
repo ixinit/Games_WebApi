@@ -3,11 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-
-
-namespace WebAPI_Core_Magerramov.Models
+namespace Games_WebApi.Models
 {
-
     public class Game
     {
         public int ID { get; set; }

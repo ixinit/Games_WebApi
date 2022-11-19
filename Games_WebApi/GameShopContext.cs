@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using System.Data.OleDb;
 using System.Linq;
 using System.Threading.Tasks;
-using WebAPI_Core_Magerramov.Models;
 
-namespace Games_WebApi.Controllers
+namespace Games_WebApi
 {
     public static class GameShopContext
     {
