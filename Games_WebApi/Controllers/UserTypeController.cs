@@ -91,12 +91,12 @@ namespace Games_WebApi.Controllers
             {
                 oleDbConnection.Open();
                 OleDbCommand oleDbCommand = new OleDbCommand(
-                    "INSERT INTO UserTypes ( TypeName, Read, Create, Edit, EditAll, Delete, DeleteAll, RezTable ) " +
+                    "INSERT INTO UserTypes ( TypeName, [Read], [Create], Edit, EditAll, [Delete], DeleteAll, RezTable ) " +
                    $"VALUES ( '{utype.TypeName}', {utype.Read}, {utype.Create}, {utype.Edit}, {utype.EditAll}, {utype.Delete}, {utype.DeleteAll}, {utype.RezTable})",
                     oleDbConnection);
                 if (oleDbCommand.ExecuteNonQuery() == 1)
                 {
-                    Console.WriteLine("INSERT INTO UserTypes ( TypeName, Read, Create, Edit, EditAll, Delete, DeleteAll, RezTable ) " +
+                    Console.WriteLine("INSERT INTO UserTypes ( TypeName, [Read], [Create], Edit, EditAll, [Delete], DeleteAll, RezTable ) " +
                                      $"VALUES ( '{utype.TypeName}', {utype.Read}, {utype.Create}, {utype.Edit}, {utype.EditAll}, {utype.Delete}, {utype.DeleteAll}, {utype.RezTable})");
                     return new OkResult();
                 }
@@ -116,8 +116,8 @@ namespace Games_WebApi.Controllers
             {
                 oleDbConnection.Open();
                 OleDbCommand oleDbCommand = new OleDbCommand(
-                       "UPDATE Users " +
-                      $"SET TypeName = '{utype.TypeName}', Read = {utype.Read}, Create = {utype.Create}, Edit = {utype.Edit}, EditAll = {utype.EditAll}, Delete = {utype.Delete}, DeleteAll = {utype.DeleteAll}, RezTable = {utype.RezTable} " +
+                       "UPDATE UserTypes " +
+                      $"SET TypeName = '{utype.TypeName}', [Read] = {utype.Read}, [Create] = {utype.Create}, Edit = {utype.Edit}, EditAll = {utype.EditAll}, [Delete] = {utype.Delete}, DeleteAll = {utype.DeleteAll}, RezTable = {utype.RezTable} " +
                       $"WHERE (ID = {id}) ",
                     oleDbConnection);
                 if (oleDbCommand.ExecuteNonQuery() == 1)
