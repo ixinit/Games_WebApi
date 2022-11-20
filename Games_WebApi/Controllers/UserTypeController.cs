@@ -37,7 +37,8 @@ namespace Games_WebApi.Controllers
                         EditAll = reader.GetBoolean(5),
                         Delete = reader.GetBoolean(6),
                         DeleteAll = reader.GetBoolean(7),
-                        RezTable = reader.GetBoolean(8)
+                        RezTable = reader.GetBoolean(8),
+                        EmergTable = reader.GetBoolean(9)
                     });
                 }
                 oleDbConnection.Close();
@@ -70,7 +71,8 @@ namespace Games_WebApi.Controllers
                         EditAll = reader.GetBoolean(5),
                         Delete = reader.GetBoolean(6),
                         DeleteAll = reader.GetBoolean(7),
-                        RezTable = reader.GetBoolean(8)
+                        RezTable = reader.GetBoolean(8),
+                        EmergTable = reader.GetBoolean(9)
                     };
                     oleDbConnection.Close();
                     return utype;
@@ -91,13 +93,13 @@ namespace Games_WebApi.Controllers
             {
                 oleDbConnection.Open();
                 OleDbCommand oleDbCommand = new OleDbCommand(
-                    "INSERT INTO UserTypes ( TypeName, [Read], [Create], Edit, EditAll, [Delete], DeleteAll, RezTable ) " +
-                   $"VALUES ( '{utype.TypeName}', {utype.Read}, {utype.Create}, {utype.Edit}, {utype.EditAll}, {utype.Delete}, {utype.DeleteAll}, {utype.RezTable})",
+                    "INSERT INTO UserTypes ( TypeName, [Read], [Create], Edit, EditAll, [Delete], DeleteAll, RezTable, EmergTable ) " +
+                   $"VALUES ( '{utype.TypeName}', {utype.Read}, {utype.Create}, {utype.Edit}, {utype.EditAll}, {utype.Delete}, {utype.DeleteAll}, {utype.RezTable}, {utype.EmergTable} )",
                     oleDbConnection);
                 if (oleDbCommand.ExecuteNonQuery() == 1)
                 {
-                    Console.WriteLine("INSERT INTO UserTypes ( TypeName, [Read], [Create], Edit, EditAll, [Delete], DeleteAll, RezTable ) " +
-                                     $"VALUES ( '{utype.TypeName}', {utype.Read}, {utype.Create}, {utype.Edit}, {utype.EditAll}, {utype.Delete}, {utype.DeleteAll}, {utype.RezTable})");
+                    Console.WriteLine("INSERT INTO UserTypes ( TypeName, [Read], [Create], Edit, EditAll, [Delete], DeleteAll, RezTable, EmergTable ) " +
+                                     $"VALUES ( '{utype.TypeName}', {utype.Read}, {utype.Create}, {utype.Edit}, {utype.EditAll}, {utype.Delete}, {utype.DeleteAll}, {utype.RezTable},  {utype.EmergTable} )");
                     return new OkResult();
                 }
             }
@@ -117,7 +119,7 @@ namespace Games_WebApi.Controllers
                 oleDbConnection.Open();
                 OleDbCommand oleDbCommand = new OleDbCommand(
                        "UPDATE UserTypes " +
-                      $"SET TypeName = '{utype.TypeName}', [Read] = {utype.Read}, [Create] = {utype.Create}, Edit = {utype.Edit}, EditAll = {utype.EditAll}, [Delete] = {utype.Delete}, DeleteAll = {utype.DeleteAll}, RezTable = {utype.RezTable} " +
+                      $"SET TypeName = '{utype.TypeName}', [Read] = {utype.Read}, [Create] = {utype.Create}, Edit = {utype.Edit}, EditAll = {utype.EditAll}, [Delete] = {utype.Delete}, DeleteAll = {utype.DeleteAll}, RezTable = {utype.RezTable}, EmergTable = {utype.EmergTable} " +
                       $"WHERE (ID = {id}) ",
                     oleDbConnection);
                 if (oleDbCommand.ExecuteNonQuery() == 1)

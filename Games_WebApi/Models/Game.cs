@@ -12,6 +12,7 @@ namespace Games_WebApi.Models
         public string Description { get; set; }
         public decimal Price { get; set; }
         public short Rating { get; set; }
+        public int OwnerID { get; set; }
 
     }
 }

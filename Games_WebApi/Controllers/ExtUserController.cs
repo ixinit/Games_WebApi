@@ -49,7 +49,8 @@ namespace Games_WebApi.Controllers
                                 EditAll = typeReader.GetBoolean(5),
                                 Delete = typeReader.GetBoolean(6),
                                 DeleteAll = typeReader.GetBoolean(7),
-                                RezTable = typeReader.GetBoolean(8)
+                                RezTable = typeReader.GetBoolean(8),
+                                EmergTable = typeReader.GetBoolean(9)
                             }
 
                         };

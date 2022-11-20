@@ -33,7 +33,8 @@ namespace Games_WebApi.Controllers
                         NameG = reader.GetString(1).Trim(),
                         Description = reader.GetString(2).Trim(),
                         Price = reader.GetDecimal(3),
-                        Rating = reader.GetInt16(4)
+                        Rating = reader.GetInt16(4),
+                        OwnerID = reader.GetInt32(5)
                     });
                 }
                 oleDbConnection.Close();
@@ -62,7 +63,8 @@ namespace Games_WebApi.Controllers
                         NameG = reader.GetString(1).Trim(),
                         Description = reader.GetString(2).Trim(),
                         Price = reader.GetDecimal(3),
-                        Rating = reader.GetInt16(4)
+                        Rating = reader.GetInt16(4),
+                        OwnerID = reader.GetInt32(5)
                     };
                     oleDbConnection.Close();
                     return game;
@@ -83,14 +85,15 @@ namespace Games_WebApi.Controllers
             {
                 oleDbConnection.Open();
                 OleDbCommand oleDbCommand = new OleDbCommand(
-                    string.Format("INSERT INTO Games ( NameG, Description, Price, Rating )" +
+                    string.Format("INSERT INTO Games ( NameG, Description, Price, Rating, OwnerID)" +
                                   "VALUES ( '{0}', '{1}', {2}, {3})",
-                                  game.NameG, game.Description, game.Price.ToString().Replace(",","."), game.Rating
+                                  game.NameG, game.Description, game.Price.ToString().Replace(",","."), game.Rating, game.OwnerID
                     ),
                     oleDbConnection);
-                Console.WriteLine(string.Format("[D]TRY INSERT INTO Games ( NameG, Description, Price, Rating )" +
+                Console.WriteLine(string.Format("[D]TRY INTO Games ( NameG, Description, Price, Rating, OwnerID)" +
                                   "VALUES ( '{0}', '{1}', {2}, {3})",
-                                  game.NameG, game.Description, game.Price.ToString().Replace(",", "."), game.Rating));
+                                  game.NameG, game.Description, game.Price.ToString().Replace(",", "."), game.Rating, game.OwnerID
+                    ));
                 if (oleDbCommand.ExecuteNonQuery() == 1)
                 {
                     Console.WriteLine("[D] INSERT INTO Games - ok");
@@ -114,9 +117,9 @@ namespace Games_WebApi.Controllers
                 oleDbConnection.Open();
                 OleDbCommand oleDbCommand = new OleDbCommand(
                     string.Format("UPDATE Games " +
-                                  "SET NameG = '{0}', Description = '{1}', Price = {2}, Rating = {3} " +
-                                  "WHERE (ID = {4}) ",
-                                  game.NameG, game.Description, game.Price.ToString().Replace(',', '.'), game.Rating, game.ID
+                                  "SET NameG = '{0}', Description = '{1}', Price = {2}, Rating = {3} OwnerID = {4} " +
+                                  "WHERE (ID = {5}) ",
+                                  game.NameG, game.Description, game.Price.ToString().Replace(',', '.'), game.Rating, game.OwnerID, game.ID
                     ),
                     oleDbConnection);
                 if (oleDbCommand.ExecuteNonQuery() == 1)

@@ -17,5 +17,7 @@ namespace Games_WebApi.Models
         public bool DeleteAll { get; set; }
         public bool RezTable { get; set; }
 
+        public bool EmergTable { get; set; }
+
     }
 }
