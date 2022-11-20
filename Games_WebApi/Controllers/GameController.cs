@@ -43,7 +43,7 @@ namespace Games_WebApi.Controllers
             return games;
         }
 
-        // GET: Game/5
+        // GET: api/Game/5
         [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Game))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -73,7 +73,37 @@ namespace Games_WebApi.Controllers
             return NotFound();
         }
 
-        // POST: Game/Insert
+        // api/Game/owner/1
+        [HttpGet]
+        [Route("owner/{id}")]
+        public List<Game> Get(int id)
+        {
+            List<Game> games = new List<Game>();
+            using (OleDbConnection oleDbConnection = new OleDbConnection(GameShopContext.connectionString))
+            {
+
+                oleDbConnection.Open();
+                OleDbCommand oleDbCommand = new OleDbCommand($"Select * from Games WHERE OwnerID = {id}", oleDbConnection);
+                OleDbDataReader reader = oleDbCommand.ExecuteReader();
+                while (reader.Read())
+                {
+                    games.Add(new Game()
+                    {
+                        ID = reader.GetInt32(0),
+                        NameG = reader.GetString(1).Trim(),
+                        Description = reader.GetString(2).Trim(),
+                        Price = reader.GetDecimal(3),
+                        Rating = reader.GetInt16(4),
+                        OwnerID = reader.GetInt32(5)
+                    });
+                }
+                oleDbConnection.Close();
+            }
+            Console.WriteLine(string.Format("[D] SELECT Games count = {0}", games.Count));
+            return games;
+        }
+
+        // POST: api/Game
         [HttpPost]
         public ActionResult Insert([FromBody] Game game)
         {
@@ -103,7 +133,7 @@ namespace Games_WebApi.Controllers
             return new NoContentResult();
         }
 
-        // GET: Game/5
+        // PUT: api/Game/5
         [HttpPut("{id}")]
         public ActionResult Update(int id, [FromBody] Game game)
         {
@@ -131,7 +161,7 @@ namespace Games_WebApi.Controllers
             return new NoContentResult();
         }
 
-        // GET: Game/5
+        // DELETE: api/Game/5
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
@@ -148,7 +178,7 @@ namespace Games_WebApi.Controllers
             return new NoContentResult();
         }
 
-        // GET: Game используется как заглушка
+        // GET: api/Game используется как заглушка
         public ActionResult Index()
         {
             return View();
