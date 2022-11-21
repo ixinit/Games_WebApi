@@ -80,14 +80,14 @@ namespace Games_WebApi.Controllers
             {
                 oleDbConnection.Open();
                 OleDbCommand oleDbCommand = new OleDbCommand(
-                    string.Format("INSERT INTO Users ( Login, Password, UserType )" +
+                    string.Format("INSERT INTO Users ( Login, [Password], UserType )" +
                                   "VALUES ( '{0}', '{1}', {2})",
                                   user.Login, user.Password, user.UserType
                     ),
                     oleDbConnection);
                 if (oleDbCommand.ExecuteNonQuery() == 1)
                 {
-                    Console.WriteLine(string.Format("[D] INSERT INTO Users ( Login, Password, UserType )" +
+                    Console.WriteLine(string.Format("[D] INSERT INTO Users ( Login, [Password], UserType )" +
                                   "VALUES ( '{0}', '{1}', {2})",
                                   user.Login, user.Password, user.UserType));
                     return new OkResult();
@@ -109,7 +109,7 @@ namespace Games_WebApi.Controllers
                 oleDbConnection.Open();
                 OleDbCommand oleDbCommand = new OleDbCommand(
                     string.Format("UPDATE Users " +
-                                  "SET Login = '{0}', Password = '{1}', UserType = {2} "+
+                                  "SET Login = '{0}', [Password] = '{1}', UserType = {2} "+
                                   "WHERE (ID = {3}) ",
                                   user.Login, user.Password, user.UserType, user.ID
                     ),
