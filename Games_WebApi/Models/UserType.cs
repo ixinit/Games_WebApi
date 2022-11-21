@@ -19,5 +19,7 @@ namespace Games_WebApi.Models
 
         public bool EmergTable { get; set; }
 
+        public bool UserTable { get; set; }
+
     }
 }
