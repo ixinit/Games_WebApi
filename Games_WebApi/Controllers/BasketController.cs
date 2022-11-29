@@ -15,32 +15,32 @@ namespace Games_WebApi.Controllers
     public class BasketController : Controller
     {
 
-        [HttpGet]
-        public List<ExtBasket> Get()
+        [HttpGet] 
+        public List<Basket> GetAll()
         {
-            List<ExtBasket> baskets = new List<ExtBasket>();
+            List<Basket> baskets = new List<Basket>();
             using (OleDbConnection oleDbConnection = new OleDbConnection(GameShopContext.connectionString))
             {
 
                 oleDbConnection.Open();
                 OleDbCommand oleDbCommand = new OleDbCommand(
-                    "SELECT Baskets.ID, Games.NameG, Baskets.[Count], Games.Price*Baskets.[Count]" +
-                    "AS TotalPrice FROM Baskets INNER JOIN Games ON Baskets.GameID=Games.ID;",
+                    $"SELECT * FROM Baskets",
                     oleDbConnection);
                 OleDbDataReader reader = oleDbCommand.ExecuteReader();
                 while (reader.Read())
                 {
-                    baskets.Add(new ExtBasket()
+                    baskets.Add(new Basket()
                     {
                         ID = reader.GetInt32(0),
-                        NameG = reader.GetString(1).Trim(),
+                        GameID = reader.GetInt32(1),
                         Count = reader.GetInt32(2),
-                        TotalPrice = reader.GetDecimal(3),
+                        UserID = reader.GetInt32(3),
+
                     });
                 }
                 oleDbConnection.Close();
             }
-            Console.WriteLine(string.Format("[D] SELECT Baskets count = {0}", baskets.Count));
+            Console.WriteLine(string.Format("[D] SELECT Games count = {0}", baskets.Count));
             return baskets;
         }
 
@@ -111,6 +111,34 @@ namespace Games_WebApi.Controllers
                 if (oleDbCommand.ExecuteNonQuery() == 1)
                 {
                     Console.WriteLine(string.Format("[D] DELETE Baskets ID = {0}", id));
+                    return new OkResult();
+                }
+            }
+            return new NoContentResult();
+        }
+        [HttpPost]
+        public ActionResult Insert([FromBody] Basket basket)
+        {
+            if (basket == null)
+            {
+                return BadRequest();
+            }
+            using (OleDbConnection oleDbConnection = new OleDbConnection(GameShopContext.connectionString))
+            {
+                oleDbConnection.Open();
+                OleDbCommand oleDbCommand = new OleDbCommand(
+                    string.Format("INSERT INTO Baskets ( GameID, [Count], UserID ) " +
+                                  "VALUES ( {0}, {1}, {2} )",
+                                  basket.GameID, basket.Count, basket.UserID
+                    ),
+                    oleDbConnection);
+                Console.WriteLine(string.Format("[D]TRY INTO Baskets ( GameID, [Count], UserID ) " +
+                                  "VALUES ( {0}, {1}, {2} )",
+                                   basket.GameID, basket.Count, basket.UserID
+                    ));
+                if (oleDbCommand.ExecuteNonQuery() == 1)
+                {
+                    Console.WriteLine("[D] INSERT INTO Baskets - ok");
                     return new OkResult();
                 }
             }
