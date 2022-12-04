@@ -40,7 +40,7 @@ namespace Games_WebApi.Controllers
                 }
                 oleDbConnection.Close();
             }
-            Console.WriteLine(string.Format("[D] SELECT Games count = {0}", baskets.Count));
+            Console.WriteLine(string.Format("[D] SELECT * Baskets count = {0}", baskets.Count));
             return baskets;
         }
 
@@ -70,7 +70,7 @@ namespace Games_WebApi.Controllers
                 }
                 oleDbConnection.Close();
             }
-            Console.WriteLine(string.Format("[D] SELECT Games count = {0}", baskets.Count));
+            Console.WriteLine($"[D] SELECT Baskets owner by UserID = {id} count = {baskets.Count}");
             return baskets;
         }
 
@@ -87,14 +87,14 @@ namespace Games_WebApi.Controllers
                 oleDbConnection.Open();
                 OleDbCommand oleDbCommand = new OleDbCommand(
                     string.Format("UPDATE Baskets " +
-                                  "SET GamedID = '{0}', [Count] = '{1}', UserID = {2}" +
+                                  "SET GamedID = {0}, [Count] = {1}, UserID = {2}" +
                                   "WHERE (ID = {3}) ",
                                   basket.GameID, basket.Count, basket.UserID, basket.ID
                     ),
                     oleDbConnection);
                 if (oleDbCommand.ExecuteNonQuery() == 1)
                 {
-                    Console.WriteLine(string.Format("[D] UPDATE Games ID = {0}", id));
+                    Console.WriteLine(string.Format("[D] UPDATE Baskets ID = {0}", id));
                     return new OkResult();
                 }
             }
@@ -126,20 +126,38 @@ namespace Games_WebApi.Controllers
             using (OleDbConnection oleDbConnection = new OleDbConnection(GameShopContext.connectionString))
             {
                 oleDbConnection.Open();
-                OleDbCommand oleDbCommand = new OleDbCommand(
-                    string.Format("INSERT INTO Baskets ( GameID, [Count], UserID ) " +
-                                  "VALUES ( {0}, {1}, {2} )",
-                                  basket.GameID, basket.Count, basket.UserID
-                    ),
-                    oleDbConnection);
-                Console.WriteLine(string.Format("[D]TRY INTO Baskets ( GameID, [Count], UserID ) " +
-                                  "VALUES ( {0}, {1}, {2} )",
-                                   basket.GameID, basket.Count, basket.UserID
-                    ));
-                if (oleDbCommand.ExecuteNonQuery() == 1)
+                OleDbCommand checkExist = new OleDbCommand($"SELECT * FROM Baskets WHERE UserID = {basket.UserID} AND GameID = {basket.GameID}", oleDbConnection);
+                OleDbDataReader reader = checkExist.ExecuteReader();
+                if (reader.HasRows)
                 {
-                    Console.WriteLine("[D] INSERT INTO Baskets - ok");
-                    return new OkResult();
+                    reader.Read();
+                    OleDbCommand oleDbCommand = new OleDbCommand(
+                        "UPDATE Baskets " +
+                        $"SET [Count] = {reader.GetInt32(2)+1} "+
+                        $"WHERE (ID = {reader.GetInt32(0)}) ",
+                        oleDbConnection);
+
+                    if (oleDbCommand.ExecuteNonQuery() == 1)
+                    {
+                        Console.WriteLine("[D] UPDATE Baskets - ok");
+                        return new OkResult();
+                    }
+                }
+                else
+                {
+                    OleDbCommand oleDbCommand = new OleDbCommand(
+                        "INSERT INTO Baskets ( GameID, [Count], UserID ) " +
+                        $"VALUES ( {basket.GameID}, {basket.Count}, {basket.UserID} )",
+                        oleDbConnection);
+
+                    Console.WriteLine("[D]Try INSERT INTO Baskets ( GameID, [Count], UserID ) " +
+                                      $"VALUES ( {basket.GameID}, {basket.Count}, {basket.UserID} )");
+
+                    if (oleDbCommand.ExecuteNonQuery() == 1)
+                    {
+                        Console.WriteLine("[D] INSERT INTO Baskets - ok");
+                        return new OkResult();
+                    }
                 }
             }
             return new NoContentResult();
