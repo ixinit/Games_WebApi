@@ -23,7 +23,7 @@ namespace Games_WebApi.Controllers
             {
 
                 oleDbConnection.Open();
-                OleDbCommand oleDbCommand = new OleDbCommand("Select * from Games", oleDbConnection);
+                OleDbCommand oleDbCommand = new OleDbCommand("Select * from Games ORDER BY ID", oleDbConnection);
                 OleDbDataReader reader = oleDbCommand.ExecuteReader();
                 while (reader.Read())
                 {
@@ -116,12 +116,12 @@ namespace Games_WebApi.Controllers
                 oleDbConnection.Open();
                 OleDbCommand oleDbCommand = new OleDbCommand(
                     string.Format("INSERT INTO Games ( NameG, Description, Price, Rating, OwnerID)" +
-                                  "VALUES ( '{0}', '{1}', {2}, {3}, {4})",
+                                  "VALUES ( '{0}', '{1}', {2}, {3}, {4} )",
                                   game.NameG, game.Description, game.Price.ToString().Replace(",","."), game.Rating, game.OwnerID
                     ),
                     oleDbConnection);
                 Console.WriteLine(string.Format("[D]TRY INTO Games ( NameG, Description, Price, Rating, OwnerID)" +
-                                  "VALUES ( '{0}', '{1}', {2}, {3}, {4})",
+                                  "VALUES ( '{0}', '{1}', {2}, {3}, {4} )",
                                   game.NameG, game.Description, game.Price.ToString().Replace(",", "."), game.Rating, game.OwnerID
                     ));
                 if (oleDbCommand.ExecuteNonQuery() == 1)
