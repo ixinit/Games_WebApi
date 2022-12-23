@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Games_WebApi.Rezerv;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Games_WebApi.Rezerv;
 
 namespace Games_WebApi.Controllers
 {
@@ -12,25 +9,19 @@ namespace Games_WebApi.Controllers
     [ApiController]
     public class RezervController : Controller
     {
-        RezervDbManager rezerv;
-        public RezervController()
-        {
-            rezerv = new RezervDbManager();
-        }
 
         [HttpGet]
         public List<string> Index()
         {
-            rezerv = new RezervDbManager();
             Console.WriteLine("Get files path");
-            return rezerv.DataBases;
+            return RezervDbManager.DataBases;
         }
 
         [HttpGet]
         [Route("Create")]
         public ActionResult Create()
         {
-            rezerv.createCopy();
+            RezervDbManager.createCopy();
             Console.WriteLine("Create db copy.");
             return new OkResult();
         }
@@ -40,14 +31,14 @@ namespace Games_WebApi.Controllers
         public string Curent()
         {
             Console.WriteLine("Get curent db file");
-            return rezerv.CurentDbFile;
+            return RezervDbManager.CurentDbFile;
         }
 
         [HttpGet]
         [Route("Curent/{id}")]
         public ActionResult setDb(int id)
         {
-            rezerv.setNewDbFile(id);
+            RezervDbManager.setNewDbFile(id);
             return new OkResult();
         }
 
@@ -55,10 +46,27 @@ namespace Games_WebApi.Controllers
         [Route("Delete/{id}")]
         public ActionResult Delete(int id)
         {
-            rezerv.deleteCopy(id);
+            RezervDbManager.deleteCopy(id);
             Console.WriteLine($"Delete db copy {id}");
             return new OkResult();
         }
 
+        [HttpGet]
+        [Route("MaxRezervs/{id}")]
+        public ActionResult setMaxRezervs(int id)
+        {
+            RezervDbManager.Settings.MaxRezervs = id;
+            Console.WriteLine($"MaxRezervs now {id}");
+            return new OkResult();
+        }
+
+        [HttpGet]
+        [Route("TimerToCreate/{id}")]
+        public ActionResult setTimerToCreate(int id)
+        {
+            RezervDbManager.Settings.TimerToCreate = id;
+            Console.WriteLine($"TimerToCreate now {id}");
+            return new OkResult();
+        }
     }
 }

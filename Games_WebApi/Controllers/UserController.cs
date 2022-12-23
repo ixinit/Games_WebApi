@@ -109,7 +109,7 @@ namespace Games_WebApi.Controllers
                 oleDbConnection.Open();
                 OleDbCommand oleDbCommand = new OleDbCommand(
                     string.Format("UPDATE Users " +
-                                  "SET Login = '{0}', [Password] = '{1}', UserType = {2} "+
+                                  "SET Login = '{0}', [Password] = '{1}', UserType = {2} " +
                                   "WHERE (ID = {3}) ",
                                   user.Login, user.Password, user.UserType, user.ID
                     ),

@@ -1,5 +1,4 @@
 ﻿using Games_WebApi.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -62,7 +61,7 @@ namespace Games_WebApi.Controllers
                     baskets.Add(new ExtBasket()
                     {
                         ID = reader.GetInt32(0),
-                        NameG  = reader.GetString(1).Trim(),
+                        NameG = reader.GetString(1).Trim(),
                         Count = reader.GetInt32(2),
                         TotalPrice = reader.GetDecimal(3),
 

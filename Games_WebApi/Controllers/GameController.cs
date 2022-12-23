@@ -117,7 +117,7 @@ namespace Games_WebApi.Controllers
                 OleDbCommand oleDbCommand = new OleDbCommand(
                     string.Format("INSERT INTO Games ( NameG, Description, Price, Rating, OwnerID)" +
                                   "VALUES ( '{0}', '{1}', {2}, {3}, {4} )",
-                                  game.NameG, game.Description, game.Price.ToString().Replace(",","."), game.Rating, game.OwnerID
+                                  game.NameG, game.Description, game.Price.ToString().Replace(",", "."), game.Rating, game.OwnerID
                     ),
                     oleDbConnection);
                 Console.WriteLine(string.Format("[D]TRY INTO Games ( NameG, Description, Price, Rating, OwnerID)" +

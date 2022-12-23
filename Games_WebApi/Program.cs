@@ -1,11 +1,6 @@
-using Games_WebApi.Controllers;
+using Games_WebApi.Rezerv;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Games_WebApi
@@ -14,6 +9,7 @@ namespace Games_WebApi
     {
         public static void Main(string[] args)
         {
+            Task.Run(() => { RezervDbManager.createIntermediateCopy(); });
             CreateHostBuilder(args).Build().Run();
         }
 

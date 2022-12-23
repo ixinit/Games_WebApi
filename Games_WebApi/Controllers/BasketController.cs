@@ -1,5 +1,4 @@
 ﻿using Games_WebApi.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -15,7 +14,7 @@ namespace Games_WebApi.Controllers
     public class BasketController : Controller
     {
 
-        [HttpGet] 
+        [HttpGet]
         public List<Basket> GetAll()
         {
             List<Basket> baskets = new List<Basket>();
@@ -65,7 +64,7 @@ namespace Games_WebApi.Controllers
                         GameID = reader.GetInt32(1),
                         Count = reader.GetInt32(2),
                         UserID = reader.GetInt32(3),
-                    
+
                     });
                 }
                 oleDbConnection.Close();
@@ -133,7 +132,7 @@ namespace Games_WebApi.Controllers
                     reader.Read();
                     OleDbCommand oleDbCommand = new OleDbCommand(
                         "UPDATE Baskets " +
-                        $"SET [Count] = {reader.GetInt32(2)+1} "+
+                        $"SET [Count] = {reader.GetInt32(2) + 1} " +
                         $"WHERE (ID = {reader.GetInt32(0)}) ",
                         oleDbConnection);
 

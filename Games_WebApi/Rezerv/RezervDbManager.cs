@@ -1,56 +1,63 @@
 ﻿using System;
-using System.IO;
 using System.Collections.Generic;
-using System.Linq;
+using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Games_WebApi.Rezerv
 {
-
-    public class RezervDbManager
+    public static class RezervDbManager
     {
-        String curentDbFile;
-        String dbPath = "DataBase/";
+        private static String curentDbFile;
+        private static String dbPath = "DataBase/";
+        private static List<String> databases;
+        private static int time_sleep;
+        private static int count_db;
 
-        List<String> databases;
+        public static String CurentDbFile { get => curentDbFile; }
+        public static List<String> DataBases { get => databases; }
 
-        public String CurentDbFile { get => curentDbFile; }
-        public List<String> DataBases { get => databases; }
+        public static RezervSettings Settings;
 
-        public RezervDbManager()
+        static RezervDbManager()
         {
             createDbPath();
             getCurentDbFile();
             getDataBases();
+
+            Settings = new RezervSettings();
+            time_sleep = Settings.TimerToCreate;
+            count_db = Settings.MaxRezervs;
         }
-        public void createDbPath()
+
+        public static void createDbPath()
         {
             if (!Directory.Exists(dbPath))
                 Directory.CreateDirectory(dbPath);
         }
 
-        public void getDataBases()
+        public static void getDataBases()
         {
             databases = new List<String>();
             foreach (string filename in Directory.GetFiles(dbPath))
             {
-                if(filename.EndsWith(".mdb"))
+                if (filename.EndsWith(".mdb"))
                     databases.Add(filename);
             }
         }
 
-        public void getCurentDbFile()
+        public static void getCurentDbFile()
         {
-            curentDbFile = GameShopContext.connectionString.Substring(45); 
+            curentDbFile = GameShopContext.connectionString.Substring(45);
         }
 
-        public void setNewDbFile(int index)
+        public static void setNewDbFile(int index)
         {
             GameShopContext.connectionString = GameShopContext.connectionString.Substring(0, 45) + databases[index];
             Console.WriteLine($"New Prowider: {GameShopContext.connectionString}");
         }
 
-        public void deleteCopy(int id)
+        public static void deleteCopy(int id)
         {
             if (curentDbFile.Equals(databases[id]))
             {
@@ -66,9 +73,62 @@ namespace Games_WebApi.Rezerv
             }
         }
 
-        public void createCopy()
+        public static void createIntermediateCopy()
         {
-            File.Copy(curentDbFile, $"{dbPath}db_copy_{DateTime.Now.ToString().Replace(' ', '_').Replace(':','.')}.mdb");
+            if (time_sleep != -1)
+            {
+                Task task = new Task(
+                    () =>
+                    {
+                        Thread.Sleep(time_sleep);
+                        createCopy();
+                        delelteOld();
+                        createIntermediateCopy();
+                    });
+                task.Start();
+            }
+        }
+
+        public static void delelteOld()
+        {
+            DateTime tmpTime;
+            int delete_index = 2;
+            // 2 смещение - нужные файлы в директории(резервый чистой бд)
+            
+            try
+            {
+                for (int j = 0; j < databases.Count - 1 - count_db; j++)
+                {
+                    tmpTime = DateTime.Parse(databases[2].Substring(17, 19).Split('_')[0] + " " + databases[4].Substring(17, 19).Split('_')[1].Replace('.', ':'));
+
+                    for (int i = 2; i <= count_db; i++)
+                    {
+                        DateTime time = DateTime.Parse(databases[i].Substring(17, 19).Split('_')[0] + " " + databases[i].Substring(17, 19).Split('_')[1].Replace('.', ':'));
+                        if (tmpTime > time)
+                        {
+                            tmpTime = time;
+                            delete_index = i;
+                        }
+                    }
+
+                    deleteCopy(delete_index);
+                    Console.WriteLine($"[Rezerv] Bakup {databases[delete_index]} was deleted");
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine("Rezerv dele error\n"+e);
+                /*Console.WriteLine(databases[2].Substring(17, 19).Split('_')[0] + " " + databases[4].Substring(17, 19).Split('_')[1].Replace('.', ':'));
+                Console.WriteLine(DateTime.Now.ToString());*/
+            }
+            getDataBases();
+            
+        }
+
+        public static void createCopy()
+        {
+            File.Copy(curentDbFile, $"{dbPath}db_copy_{DateTime.Now.ToString().Replace(' ', '_').Replace(':', '.')}.mdb");
+            Console.WriteLine($"[Rezerv] Bakup {dbPath}db_copy_{DateTime.Now.ToString().Replace(' ', '_').Replace(':', '.')}.mdb was created");
         }
 
     }
